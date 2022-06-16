@@ -1,5 +1,5 @@
 {
-  "name": "kitdog",
+  "name": "httpz",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,5 +9,5 @@
   },
   "type": "module",
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
