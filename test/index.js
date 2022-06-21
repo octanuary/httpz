@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import request from "supertest";
-import kitdog from "../index.js";
+import kitdog from "../lib/index.js";
 const server = new kitdog.Server();
 server.listen(1035);
 
@@ -53,13 +53,21 @@ describe("Server", function () {
 						.expect("world", done);
 				});
 		});
-		it("should return the expected response", done => {
-			server.route("POST", "/hello", (req, res) => 
-				res.status(420).end("world"));
+		it("should ignore a querystring in the url", done => {
+			server.route("GET", "/req-query-ignoreQuery?param1=hello&param2=world", (req, res) => 
+				res.json(req.query));
 
 			request(server.server)
-				.post("/hello")
-				.expect(420, "world", done);
+				.get("/req-query-ignoreQuery")
+				.expect(200, {}, done);
+		});
+		it("should return the expected response", done => {
+			server.route("POST", "/server-route-expected", (req, res) => 
+				res.status(420).end("hello-world"));
+
+			request(server.server)
+				.post("/server-route-expected")
+				.expect(420, "hello-world", done);
 		});
 	});
 });
@@ -67,16 +75,29 @@ describe("Server", function () {
 describe("Request", function () {
 	describe(".cookies", () => {
 		it("should return all the cookies", done => {
-			server.route("*", "/cookies", (req, res) => 
+			server.route("*", "/req-cookies-allCookies", (req, res) => 
 				res.json(req.cookies));
 
 			request(server.server)
-				.get("/cookies")
+				.get("/req-cookies-allCookies")
 				.set("Cookie", "cookie1=hello; cookie2=world;cookie3=hellouser")
 				.expect(200, {
 					cookie1: "hello",
 					cookie2: "world",
 					cookie3: "hellouser"
+				}, done);
+		});
+	});
+	describe(".query", () => {
+		it("should return the parsed querystring", done => {
+			server.route("GET", "/req-query-getQuery", (req, res) => 
+				res.json(req.query));
+
+			request(server.server)
+				.get("/req-query-getQuery?param1=bye&param2=world")
+				.expect(200, {
+					param1: "bye",
+					param2: "world"
 				}, done);
 		});
 	});
