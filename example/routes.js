@@ -2,7 +2,7 @@
  * example server routes
  */
 // stuff
-import httpz from "../lib/index.js";
+const httpz = require("../lib/index");
 
 // create a new route group
 const group = new httpz.Group();
@@ -29,4 +29,4 @@ group
 		});
 	});
 
-export default group;
+module.exports = group;

@@ -7,7 +7,7 @@
     "test": "mocha",
     "start": "node example/index.js"
   },
-  "type": "module",
+  "type": "commonjs",
   "author": "",
   "license": "MIT",
   "devDependencies": {

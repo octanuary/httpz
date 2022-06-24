@@ -4,11 +4,11 @@
  * License: MIT
  */
 // stuff
-import httpz from "../lib/index.js";
-import routes from "./routes.js";
+const httpz = require("../lib/index");
+const routes = require("./routes");
 // middlewares
-import restime from "./middlewares/responseTime.js";
-import user from "./middlewares/user.js";
+const restime = require("./middlewares/responseTime");
+const user = require("./middlewares/user");
 
 const server = new httpz.Server();
 

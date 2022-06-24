@@ -1,12 +1,13 @@
+const httpz = require("../../lib/index");
 
 /**
  * 
  * @param {httpz.Request} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {httpz.Response} res 
+ * @param {Function} next 
  * @returns 
  */
-export default async function(req, res, next) {
+module.exports = async function(req, res, next) {
 	const start = Date.now();
 	await next();
 	const duration = Date.now() - start;

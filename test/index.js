@@ -1,6 +1,6 @@
-import assert from "node:assert";
-import request from "supertest";
-import kitdog from "../lib/index.js";
+const assert = require("node:assert");
+const request = require("supertest");
+const kitdog = require("../lib/index.js");
 const server = new kitdog.Server();
 server.listen(1035);
 
