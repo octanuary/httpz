@@ -1,0 +1,3 @@
+{
+    "invalidUrlType": "URL must have type 'string | string[] | RegExp'."
+}

@@ -53,6 +53,24 @@ describe("Server", function () {
 						.expect("world", done);
 				});
 		});
+		it("should accept a regex url", done => {
+			server.route("*", /^\/server-route-regEx([\d]+)$/, (req, res) => 
+				res.end("world"));
+
+			request(server.server)
+				.get("/server-route-regEx1")
+				.end((e, res) => {
+					if (e) {
+						done(e);
+						return;
+				 	};
+					assert.equal(res.text, "world");
+
+					request(server.server)
+						.get("/server-route-regEx2")
+						.expect("world", done);
+				});
+		});
 		it("should ignore a querystring in the url", done => {
 			server.route("GET", "/req-query-ignoreQuery?param1=hello&param2=world", (req, res) => 
 				res.json(req.query));
