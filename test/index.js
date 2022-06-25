@@ -121,3 +121,32 @@ describe("Request", function () {
 	});
 });
 
+describe("Response", function () {
+	describe(".redirect", () => {
+		it("should redirect to the specified url", done => {
+			server.route("*", "/res-redirect1", (req, res) => 
+				res.redirect(301, "/res-redirect2"));
+
+			request(server.server)
+				.get("/res-redirect1")
+				.expect("Location", "/res-redirect2")
+				.expect(301, done);
+		});
+	});
+	describe(".json", () => {
+		it("should stringify the json and return it", done => {
+			server.route("GET", "/res-json", (req, res) => 
+				res.json({
+					success: 0,
+					msg: "hi"
+				}));
+
+			request(server.server)
+				.get("/res-json")
+				.expect(200, {
+					success: 0,
+					msg: "hi"
+				}, done);
+		});
+	});
+});
