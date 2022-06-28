@@ -4,7 +4,7 @@ const kitdog = require("../lib/index.js");
 const server = new kitdog.Server();
 server.listen(1035);
 
-describe("Server", function () {
+describe("Server", () => {
 	describe(".route", () => {
 		it("should add the route to Server.middlewares", done => {
 			server.route("GET", "/server-route-mwArrayTest", (req, res) => 
@@ -18,74 +18,87 @@ describe("Server", function () {
 			// look for the middleware
 			done(assert.equal(typeof middleware, "object"));
 		});
-		it("should accept an array of methods", done => {
-			server.route(["GET", "DELETE"], "/server-route-methodArray", (req, res) => 
-				res.end("world"));
-
-			request(server.server)
-				.get("/server-route-methodArray")
-				.end(e => {
-					if (e) {
-						done(e);
-						return;
-					};
-
-					request(server.server)
-						.delete("/server-route-methodArray")
-						.expect("world", done);
+		describe("#flexible", () => {
+			it("should accept an array of methods", done => {
+				server.route(["GET", "DELETE"], "/server-route-methodArray", (req, res) => 
+					res.end("world"));
+	
+				request(server.server)
+					.get("/server-route-methodArray")
+					.end(e => {
+						if (e) {
+							done(e);
+							return;
+						};
+	
+						request(server.server)
+							.delete("/server-route-methodArray")
+							.expect("world", done);
+					});
+			});
+			it("should accept an array of urls", done => {
+				server.route("*", ["/server-route-urlArray1", "/server-route-urlArray2"], (req, res) => 
+					res.end("world"));
+	
+				request(server.server)
+					.get("/server-route-urlArray1")
+					.end((e, res) => {
+						if (e) {
+							done(e);
+							return;
+						 };
+						assert.equal(res.text, "world");
+	
+						request(server.server)
+							.get("/server-route-urlArray2")
+							.expect("world", done);
+					});
+			});
+			it("should accept a regex url", done => {
+				server.route("*", /^\/server-route-regEx([\d]+)$/, (req, res) => 
+					res.end("world"));
+	
+				request(server.server)
+					.get("/server-route-regEx1")
+					.end((e, res) => {
+						if (e) {
+							done(e);
+							return;
+						 };
+						assert.equal(res.text, "world");
+	
+						request(server.server)
+							.get("/server-route-regEx2")
+							.expect("world", done);
+					});
+			});
+			it("should ignore a querystring in the url", done => {
+				server.route("GET", "/req-query-ignoreQuery?param1=hello&param2=world", (req, res) => 
+					res.json(req.query));
+	
+				request(server.server)
+					.get("/req-query-ignoreQuery")
+					.expect(200, {}, done);
+			});
+		});
+		describe("#called", () => {
+			it("should return the expected response", done => {
+				server.route("POST", "/server-route-expected", (req, res) => 
+					res.status(420).end("hello-world"));
+	
+				request(server.server)
+					.post("/server-route-expected")
+					.expect(420, "hello-world", done);
+			});
+			it("should not crash when an unhandled exception occurs", done => {
+				server.route("POST", "/server-route-exception", () => {
+					throw "christine chubbuck";
 				});
-		});
-		it("should accept an array of urls", done => {
-			server.route("*", ["/server-route-urlArray1", "/server-route-urlArray2"], (req, res) => 
-				res.end("world"));
-
-			request(server.server)
-				.get("/server-route-urlArray1")
-				.end((e, res) => {
-					if (e) {
-						done(e);
-						return;
-				 	};
-					assert.equal(res.text, "world");
-
-					request(server.server)
-						.get("/server-route-urlArray2")
-						.expect("world", done);
-				});
-		});
-		it("should accept a regex url", done => {
-			server.route("*", /^\/server-route-regEx([\d]+)$/, (req, res) => 
-				res.end("world"));
-
-			request(server.server)
-				.get("/server-route-regEx1")
-				.end((e, res) => {
-					if (e) {
-						done(e);
-						return;
-				 	};
-					assert.equal(res.text, "world");
-
-					request(server.server)
-						.get("/server-route-regEx2")
-						.expect("world", done);
-				});
-		});
-		it("should ignore a querystring in the url", done => {
-			server.route("GET", "/req-query-ignoreQuery?param1=hello&param2=world", (req, res) => 
-				res.json(req.query));
-
-			request(server.server)
-				.get("/req-query-ignoreQuery")
-				.expect(200, {}, done);
-		});
-		it("should return the expected response", done => {
-			server.route("POST", "/server-route-expected", (req, res) => 
-				res.status(420).end("hello-world"));
-
-			request(server.server)
-				.post("/server-route-expected")
-				.expect(420, "hello-world", done);
+	
+				request(server.server)
+					.post("/server-route-exception")
+					.expect(500, done)
+			});
 		});
 	});
 });
@@ -147,6 +160,20 @@ describe("Response", function () {
 					success: 0,
 					msg: "hi"
 				}, done);
+		});
+	});
+	describe(".assert", () => {
+		it("should throw an exception if the value doesn't exist", done => {
+			server.route("GET", "/res-assert", (req, res) => {
+				res.assert(req.query.param1, 500, "i hate you");
+				// never happens
+				res.status(200);
+				res.end("great job!");
+			});
+
+			request(server.server)
+				.get("/res-assert")
+				.expect(500, "i hate you", done);
 		});
 	});
 });
