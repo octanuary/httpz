@@ -1,8 +1,7 @@
 const assert = require("node:assert");
 const request = require("supertest");
 const kitdog = require("../lib/index.js");
-const server = new kitdog.Server();
-server.listen(1035);
+const server = new kitdog.Server({strictUrl:true});
 
 describe("Server", () => {
 	describe(".route", () => {
@@ -64,7 +63,7 @@ describe("Server", () => {
 						if (e) {
 							done(e);
 							return;
-						 };
+						};
 						assert.equal(res.text, "world");
 	
 						request(server.server)
@@ -90,6 +89,20 @@ describe("Server", () => {
 					.post("/server-route-expected")
 					.expect(420, "hello-world", done);
 			});
+			it("should be case-sensitive", done => {
+				server.route("POST", "/server-route-caseSensitive", (req, res) => 
+					res.end("EEEEEE"));
+				server.one("*", "*", (req, res) => {
+					if (!res.writableEnded) {
+						res.status(404);
+						res.end("40whore");
+					}
+				});
+	
+				request(server.server)
+					.post("/server-route-casesensitive")
+					.expect(404, "40whore", done);
+			});
 			it("should not crash when an unhandled exception occurs", done => {
 				server.route("POST", "/server-route-exception", () => {
 					throw "christine chubbuck";
@@ -99,6 +112,30 @@ describe("Server", () => {
 					.post("/server-route-exception")
 					.expect(500, done)
 			});
+		});
+	});
+	describe(".one", () => {
+		it("can only be used once", done => {
+			server.one("*", "/server-one", (req, res) => {
+				res.end("this is the first and last time i'll see you");
+			});
+			server.one("*", "*", (req, res) => {
+				if (!res.writableEnded) {
+					res.status(404);
+					res.end("4444444444");
+				}
+			});
+
+			request(server.server)
+				.get("/server-one")
+				.expect(200, "this is the first and last time i'll see you")
+				.end((e, res) => {
+					if (e) done(e);
+
+					request(server.server)
+						.get("/server-one")
+						.expect(404, "4444444444", done);
+				});
 		});
 	});
 });
