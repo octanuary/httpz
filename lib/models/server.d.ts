@@ -16,7 +16,7 @@ declare type httpzOptions = {
  * The server.
  */
 declare class Server {
-	constructor(options: httpzOptions): Server;
+	constructor(options: httpzOptions);
 
 	/**
 	 * Adds a middleware or a route to the list.
@@ -70,5 +70,5 @@ declare class Server {
 
 	server: httpServer
 
-};
+}
 export = Server;
