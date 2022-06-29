@@ -29,11 +29,30 @@ declare class Server {
 	 */
 	add(param1: Group | ServerCallback): Server;
 
+	/**
+	 * Alias of http.Server.listen().
+	 */
+	listen(...p): void;
+
 	middlewares: ({
 		method: string[],
 		url: string[] | RegExp,
 		callbacks: Function[]
 	} | Function)[];
+
+	/**
+	 * Adds a middleware associated with a route (that only works once).
+	 * ```js
+	 * server.one("*", "*", (req, res, next) => {
+	 *  res.end("Goodbye forever.");
+	 *  // Call the next middlewares.
+	 *  next();
+	 * });
+	 * ```
+	 */
+	one(method: string | string[], url: string, ...callbacks: ServerCallback[]): Server;
+	one(method: string | string[], url: string[], ...callbacks: ServerCallback[]): Server;
+	one(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): Server;
 
 	/**
 	 * Adds a middleware associated with a route.
@@ -47,21 +66,7 @@ declare class Server {
 	 */
 	route(method: string | string[], url: string, ...callbacks: ServerCallback[]): Server;
 	route(method: string | string[], url: string[], ...callbacks: ServerCallback[]): Server;
-	route(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): Server;
-
-	/**
-	 * Adds a middleware associated with a route (that only works once).
-	 * ```js
-	 * server.one("*", "*", (req, res, next) => {
-	 *  res.end("Hello world!");
-	 *  // Call the next middlewares.
-	 *  next();
-	 * });
-	 * ```
-	 */
-	one(method: string | string[], url: string, ...callbacks: ServerCallback[]): Server;
-	one(method: string | string[], url: string[], ...callbacks: ServerCallback[]): Server;
-	one(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): Server;
+	route(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): Server
 
 	server: httpServer
 

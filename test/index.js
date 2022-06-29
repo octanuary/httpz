@@ -6,8 +6,9 @@ const server = new kitdog.Server({strictUrl:true});
 describe("Server", () => {
 	describe(".route", () => {
 		it("should add the route to Server.middlewares", done => {
-			server.route("GET", "/server-route-mwArrayTest", (req, res) => 
-				res.end("world"));
+			server.route("GET", "/server-route-mwArrayTest", (req, res) =>
+				res.end("world")
+			);
 
 			const middleware = server.middlewares.find(m => {
 				return m.method == "GET" &&
@@ -19,8 +20,9 @@ describe("Server", () => {
 		});
 		describe("#flexible", () => {
 			it("should accept an array of methods", done => {
-				server.route(["GET", "DELETE"], "/server-route-methodArray", (req, res) => 
-					res.end("world"));
+				server.route(["GET", "DELETE"], "/server-route-methodArray",
+					(req, res) => res.end("world")
+				);
 	
 				request(server.server)
 					.get("/server-route-methodArray")
@@ -36,8 +38,11 @@ describe("Server", () => {
 					});
 			});
 			it("should accept an array of urls", done => {
-				server.route("*", ["/server-route-urlArray1", "/server-route-urlArray2"], (req, res) => 
-					res.end("world"));
+				server.route(
+					"*",
+					["/server-route-urlArray1", "/server-route-urlArray2"],
+					(req, res) => res.end("world")
+				);
 	
 				request(server.server)
 					.get("/server-route-urlArray1")
@@ -54,8 +59,11 @@ describe("Server", () => {
 					});
 			});
 			it("should accept a regex url", done => {
-				server.route("*", /^\/server-route-regEx([\d]+)$/, (req, res) => 
-					res.end("world"));
+				server.route(
+					"*",
+					/^\/server-route-regEx([\d]+)$/,
+					(req, res) => res.end("world")
+				);
 	
 				request(server.server)
 					.get("/server-route-regEx1")
@@ -72,8 +80,11 @@ describe("Server", () => {
 					});
 			});
 			it("should ignore a querystring in the url", done => {
-				server.route("GET", "/req-query-ignoreQuery?param1=hello&param2=world", (req, res) => 
-					res.json(req.query));
+				server.route(
+					"GET",
+					"/req-query-ignoreQuery?param1=hello&param2=world",
+					(req, res) => res.json(req.query)
+				);
 	
 				request(server.server)
 					.get("/req-query-ignoreQuery")
@@ -82,16 +93,20 @@ describe("Server", () => {
 		});
 		describe("#called", () => {
 			it("should return the expected response", done => {
-				server.route("POST", "/server-route-expected", (req, res) => 
-					res.status(420).end("hello-world"));
+				server.route("POST", "/server-route-expected", (req, res) =>
+					res.status(420).end("hello-world")
+				);
 	
 				request(server.server)
 					.post("/server-route-expected")
 					.expect(420, "hello-world", done);
 			});
 			it("should be case-sensitive", done => {
-				server.route("POST", "/server-route-caseSensitive", (req, res) => 
-					res.end("EEEEEE"));
+				server.route(
+					"POST",
+					"/server-route-caseSensitive",
+					(req, res) => res.end("EEEEEE")
+				);
 				server.one("*", "*", (req, res) => {
 					if (!res.writableEnded) {
 						res.status(404);
@@ -116,9 +131,9 @@ describe("Server", () => {
 	});
 	describe(".one", () => {
 		it("can only be used once", done => {
-			server.one("*", "/server-one", (req, res) => {
-				res.end("this is the first and last time i'll see you");
-			});
+			server.one("*", "/server-one", (req, res) => 
+				res.end("this is the first and last time i'll see you")
+			);
 			server.one("*", "*", (req, res) => {
 				if (!res.writableEnded) {
 					res.status(404);
@@ -143,8 +158,9 @@ describe("Server", () => {
 describe("Request", function () {
 	describe(".cookies", () => {
 		it("should return all the cookies", done => {
-			server.route("*", "/req-cookies-allCookies", (req, res) => 
-				res.json(req.cookies));
+			server.route("*", "/req-cookies-allCookies", (req, res) =>
+				res.json(req.cookies)
+			);
 
 			request(server.server)
 				.get("/req-cookies-allCookies")
@@ -158,8 +174,9 @@ describe("Request", function () {
 	});
 	describe(".query", () => {
 		it("should return the parsed querystring", done => {
-			server.route("GET", "/req-query-getQuery", (req, res) => 
-				res.json(req.query));
+			server.route("GET", "/req-query-getQuery", (req, res) =>
+				res.json(req.query)
+			);
 
 			request(server.server)
 				.get("/req-query-getQuery?param1=bye&param2=world")
@@ -174,8 +191,9 @@ describe("Request", function () {
 describe("Response", function () {
 	describe(".redirect", () => {
 		it("should redirect to the specified url", done => {
-			server.route("*", "/res-redirect1", (req, res) => 
-				res.redirect(301, "/res-redirect2"));
+			server.route("*", "/res-redirect1", (req, res) =>
+				res.redirect(301, "/res-redirect2")
+			);
 
 			request(server.server)
 				.get("/res-redirect1")
@@ -185,11 +203,12 @@ describe("Response", function () {
 	});
 	describe(".json", () => {
 		it("should stringify the json and return it", done => {
-			server.route("GET", "/res-json", (req, res) => 
+			server.route("GET", "/res-json", (req, res) =>
 				res.json({
 					success: 0,
 					msg: "hi"
-				}));
+				})
+			);
 
 			request(server.server)
 				.get("/res-json")
