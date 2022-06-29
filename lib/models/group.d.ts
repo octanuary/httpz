@@ -3,6 +3,8 @@
  * Author: octanuary
  * License: MIT
  */
+import Request from "./request.js";
+import Response from "./response.js";
 
 declare type ServerCallback = (req: Request, res: Response, next: Promise<any>) => any;
 
