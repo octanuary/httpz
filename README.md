@@ -12,7 +12,7 @@ npm install @octanuary/httpz
 
 ## Example
 ```js
-import httpz from "httpz";
+import httpz from "@octanuary/httpz";
 
 const server = new httpz.Server();
 
@@ -30,7 +30,7 @@ server
 HTTPz already comes with a router built-in, which is `httpz.Group`, so you can do this:
 
 ```js
-import httpz from "httpz";
+import httpz from "@octanuary/httpz";
 
 const server = new httpz.Server();
 const group = new httpz.Group();
