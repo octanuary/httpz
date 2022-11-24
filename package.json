@@ -1,6 +1,6 @@
 {
-  "name": "httpz",
-  "version": "1.0.0",
+  "name": "@octanuary/httpz",
+  "version": "1.0.1",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
