@@ -32,20 +32,6 @@ declare class Group {
 	} | Function)[];
 
 	/**
-	 * Adds a middleware associated with a route (that only works once).
-	 * ```js
-	 * server.one("*", "*", (req, res, next) => {
-	 *  res.end("Goodbye forever.");
-	 *  // Call the next middlewares.
-	 *  next();
-	 * });
-	 * ```
-	 */
-	one(method: string | string[], url: string, ...callbacks: ServerCallback[]): Group;
-	one(method: string | string[], url: string[], ...callbacks: ServerCallback[]): Group;
-	one(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): Group;
-
-	/**
 	 * Adds a middleware associated with a route.
 	 * ```js
 	 * server.route("*", "*", (req, res, next) => {

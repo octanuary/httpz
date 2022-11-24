@@ -8,7 +8,7 @@ const httpz = require("../lib/index");
 const group = new httpz.Group();
 
 group
-	.route("GET", "/OK", async (req, res) => {
+	.route(["YOU", "GET", "NO", "BITCHES"], "/OK", async (req, res) => {
 		let ok = false;
 		if (req.query.ok) ok = true;
 

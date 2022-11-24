@@ -43,20 +43,6 @@ declare class Server {
 	} | Function)[];
 
 	/**
-	 * Adds a middleware associated with a route (that only works once).
-	 * ```js
-	 * server.one("*", "*", (req, res, next) => {
-	 *  res.end("Goodbye forever.");
-	 *  // Call the next middlewares.
-	 *  next();
-	 * });
-	 * ```
-	 */
-	one(method: string | string[], url: string, ...callbacks: ServerCallback[]): Server;
-	one(method: string | string[], url: string[], ...callbacks: ServerCallback[]): Server;
-	one(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): Server;
-
-	/**
 	 * Adds a middleware associated with a route.
 	 * ```js
 	 * server.route("*", "*", (req, res, next) => {
