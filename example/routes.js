@@ -1,10 +1,8 @@
-/**
- * example server routes
- */
-// stuff
+/*
+example server routes
+*/
 const httpz = require("../lib/index");
 
-// create a new route group
 const group = new httpz.Group();
 
 group

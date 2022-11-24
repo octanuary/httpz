@@ -1,15 +1,11 @@
-/*!
- * httpz.Request
- * Author: octanuary
- * License: MIT
- */
+import { Socket } from "net";
 import { IncomingMessage } from "http";
 
 /**
- * An extended version of IncomingMessage.
+ * an extended version of IncomingMessage
  */
 declare class Request extends IncomingMessage {
-	constructor(socket: Socket): Request;
+	constructor(socket: Socket);
 
 	cookies: {
 		[k: string]: string
@@ -20,5 +16,6 @@ declare class Request extends IncomingMessage {
 	query: {
 		[k: string]: string
 	} | undefined;
-};
+}
+
 export = Request;

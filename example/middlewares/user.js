@@ -1,4 +1,9 @@
-module.exports = async function(req, res, next) {
+/**
+ * @param {httpz.Request} req 
+ * @param {httpz.Response} res 
+ * @param {Function} next 
+ */
+module.exports = async function (req, res, next) {
 	req.user = {
 		id: 1,
 		name: 'John Doe',
@@ -6,4 +11,4 @@ module.exports = async function(req, res, next) {
 	};
 	await next();
 	return;
-}
+};

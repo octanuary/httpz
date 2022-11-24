@@ -1,12 +1,8 @@
-/**
- * HTTPz example server
- * Author: octanuary#6553
- * License: MIT
- */
-// stuff
+/*
+httpz official real not fake example server
+*/
 const httpz = require("../lib/index");
 const routes = require("./routes");
-// middlewares
 const restime = require("./middlewares/responseTime");
 const user = require("./middlewares/user");
 

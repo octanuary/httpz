@@ -1,15 +1,15 @@
-/*!
- * httpz.Response
- * Author: octanuary
- * License: MIT
- */
+/*
+httpz.Response
+Author: octanuary
+License: MIT
+*/
 import { IncomingMessage, ServerResponse } from "http";
 
 /**
- * An extended version of ServerResponse.
+ * an extended version of ServerResponse
  */
 declare class Response extends ServerResponse {
-	constructor(req: IncomingMessage): Response;
+	constructor(req: IncomingMessage);
 
 	/**
 	 * Checks if the value is `true`. If not, it throws an error.
@@ -37,7 +37,7 @@ declare class Response extends ServerResponse {
 	 * ```
 	 */
 	redirect(url: string): void;
-	redirect(status?: number, url: string): void;
+	redirect(status: number, url: string): void;
 
 	/**
 	 * Sets the status code.
@@ -50,6 +50,6 @@ declare class Response extends ServerResponse {
 	 * ```
 	 */
 	status(status: number): Response;
+}
 
-};
 export = Response;

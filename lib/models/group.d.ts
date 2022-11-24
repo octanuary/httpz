@@ -1,16 +1,8 @@
-/*!
- * httpz.Group
- * Author: octanuary
- * License: MIT
- */
 import Request from "./request.js";
 import Response from "./response.js";
 
 declare type ServerCallback = (req: Request, res: Response, next: Promise<any>) => any;
 
-/**
- * The server.
- */
 declare class Group {
 	constructor();
 
@@ -23,7 +15,7 @@ declare class Group {
 	 * });
 	 * ```
 	 */
-	add(param1: Group | ServerCallback): Group;
+	add(param1: Group | ServerCallback): this;
 
 	middlewares: ({
 		method: string[],
@@ -41,9 +33,9 @@ declare class Group {
 	 * });
 	 * ```
 	 */
-	route(method: string | string[], url: string, ...callbacks: ServerCallback[]): Group;
-	route(method: string | string[], url: string[], ...callbacks: ServerCallback[]): Group;
-	route(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): Group
-
+	route(method: string | string[], url: string, ...callbacks: ServerCallback[]): this;
+	route(method: string | string[], url: string[], ...callbacks: ServerCallback[]): this;
+	route(method: string | string[], url: RegExp, ...callbacks: ServerCallback[]): this
 }
+
 export = Group;
