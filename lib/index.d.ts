@@ -4,10 +4,9 @@ import Response from "./models/response";
 import Server from "./models/server";
 
 declare module "@octanuary/httpz";
-declare const exported: {
-	Group: Group,
-	Request: Request,
-	Response: Response,
-	Server: Server
+export {
+	Group,
+	Request,
+	Response,
+	Server
 };
-export = exported;
