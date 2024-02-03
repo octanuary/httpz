@@ -4,8 +4,7 @@ import Group from "./group.js";
 declare type httpzOptions = {
 	strictUrl?: boolean
 };
-
-export class Server extends Group {
+declare class Server extends Group {
 	constructor(options?: httpzOptions);
 
 	/**
@@ -15,3 +14,5 @@ export class Server extends Group {
 
 	server: httpServer
 }
+
+export = Server;
