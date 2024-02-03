@@ -6,7 +6,7 @@ declare type httpzOptions = {
 };
 
 export class Server extends Group {
-	constructor(options: httpzOptions);
+	constructor(options?: httpzOptions);
 
 	/**
 	 * Alias of http.Server.listen().
