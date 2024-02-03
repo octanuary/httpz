@@ -1,7 +1,7 @@
 import Request from "./request.js";
 import Response from "./response.js";
 
-declare type ServerCallback = (req: Request, res: Response, next: Promise<any>) => any;
+declare type ServerCallback = (req: Request, res: Response, next: () => Promise<void>) => any;
 
 declare class Group {
 	constructor();
