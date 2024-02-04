@@ -7,10 +7,7 @@ declare type httpzOptions = {
 declare class Server extends Group {
 	constructor(options?: httpzOptions);
 
-	/**
-	 * Alias of http.Server.listen().
-	 */
-	listen(): typeof httpServer.prototype.listen;
+	listen: typeof httpServer.prototype.listen;
 
 	server: httpServer
 }
