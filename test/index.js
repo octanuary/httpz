@@ -1,7 +1,11 @@
 const assert = require("node:assert");
 const request = require("supertest");
-const httpz = require("../lib/index.js");
-const server = new httpz.Server({ strictUrl: true });
+const httpz = require("../build/index.js");
+const server = new httpz.Server({
+	strictUrl: true,
+	matchPathname: true,
+	catchUnhandledExceptions: true
+});
 
 describe("Server", () => {
 	describe(".route", () => {
@@ -26,7 +30,7 @@ describe("Server", () => {
 	
 				request(server.server)
 					.get("/server-route-methodArray")
-					.end(e => {
+					.end((e) => {
 						if (e) {
 							done(e);
 							return;
@@ -195,7 +199,7 @@ describe("Response", function () {
 	describe(".assert", () => {
 		it("should throw an exception if the value doesn't exist", (done) => {
 			server.route("GET", "/res-assert", (req, res) => {
-				res.assert(req.query.param1, 500, "i hate you");
+				res.assert(500, "i hate you", req.query.param1);
 				// never happens
 				res.status(200);
 				res.end("great job!");
