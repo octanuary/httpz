@@ -3,7 +3,7 @@ import Request from "./core/request";
 import Response from "./core/response";
 import Server from "./core/server";
 
-export {
+export default {
 	Group,
 	Request,
 	Response,
