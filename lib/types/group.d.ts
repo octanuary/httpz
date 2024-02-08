@@ -1,7 +1,5 @@
-import http from "http";
 import Request from "./request";
 import Response from "./response";
-import errors from "../util/errors.json";
 
 export type ServerCallback<HasRegexUrl = unknown> = (req: Request<HasRegexUrl>, res: Response, next: () => Promise<void>) => any;
 export type Middleware = {
@@ -44,14 +42,7 @@ export default class Group {
 	options:HttpzOptions;
 	middlewares: (Middleware | ServerCallback)[];
 
-	constructor(options:HttpzOptions = {
-		strictUrl:true,
-		matchPathname:true,
-		catchUnhandledExceptions: false}
-	) {
-		this.middlewares = [];
-		this.options = options;
-	}
+	constructor(options:HttpzOptions);
 
 	/**
 	 * Adds a middleware or merges a group into to the list.
@@ -62,16 +53,7 @@ export default class Group {
 	 * });
 	 * ```
 	 */
-	add(param1:Group | ServerCallback): this {
-		if (param1 instanceof Group) {
-			this.middlewares.push(...param1.middlewares);
-		} else if (typeof param1 == "function") {
-			this.middlewares.push(param1);
-		} else {
-			throw new Error("Expected type 'httpz.Group | function' for param1. Got " + typeof param1);
-		}
-		return this;
-	}
+	add(param1:Group | ServerCallback): this;
 
 	/**
 	 * Adds a middleware associated with a route.
@@ -85,32 +67,5 @@ export default class Group {
 	 */
 	// @ts-ignore
 	route(method:Method | Method[], url:RegExp, ...callbacks:ServerCallback<RegExpMatchArray>[]): this
-	route(method:Method | Method[], url:string | string[] | RegExp, ...callbacks:ServerCallback[]): this
-	route(method:string | string[], url:string | string[] | RegExp, ...callbacks:ServerCallback[]): this {
-		// convert request methods to uppercase
-		if (typeof method == "string") {
-			method = [method.toUpperCase()];
-		} else if (Array.isArray(method)) {
-			method = method.map((m) => m.toUpperCase());
-		} else {
-			throw new Error("Expected type 'string | string[]' for method. Got " + typeof method);
-		}
-		const validMethods = method.some((m) => http.METHODS.includes(m));
-		if (!validMethods) {
-			throw new Error(errors.invalidMethod);
-		}
-
-		if (typeof url == "string") {
-			url = [url];
-		} else if (!Array.isArray(url) && !(url instanceof RegExp)) {
-			throw new TypeError(errors.invalidUrlType);
-		}
-
-		this.middlewares.push({
-			method,
-			url,
-			callbacks
-		});
-		return this;
-	}
-};
+	route(method:Method | Method[], url:string | string[] | RegExp, ...callbacks:ServerCallback<undefined>[]): this;
+}

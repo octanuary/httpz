@@ -1,24 +1,18 @@
 {
 	"name": "@octanuary/httpz",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"description": "HTTPz (http-**easy**) is a lightweight HTTP framework for Node.js.",
-	"main": "./build/index.js",
+	"main": "./lib/index.js",
 	"scripts": {
-		"test": "npm run build && mocha",
-		"build": "tsc -p ./lib",
-		"prepublish": "npm run build",
-		"start": "npm run build && node example/index.js"
+		"test": "mocha"
 	},
 	"author": "octanuary",
 	"license": "MIT",
 	"devDependencies": {
-		"@types/node": "^20.11.16",
 		"mocha": "^10.0.0",
-		"supertest": "^6.2.3",
-		"tsx": "^4.7.0",
-		"typescript": "^5.3.3"
+		"supertest": "^6.2.3"
 	},
-	"types": "./lib/index.ts",
+	"types": "./lib/types/index.d.ts",
 	"directories": {
 		"lib": "lib",
 		"test": "test"
