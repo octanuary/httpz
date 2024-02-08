@@ -1,5 +1,5 @@
-import Request from "./request";
-import Response from "./response";
+import Request from "../request";
+import Response from "../response";
 
 export type ServerCallback<HasRegexUrl = unknown> = (req: Request<HasRegexUrl>, res: Response, next: () => Promise<void>) => any;
 export type Middleware = {

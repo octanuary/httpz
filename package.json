@@ -1,6 +1,6 @@
 {
 	"name": "@octanuary/httpz",
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"description": "HTTPz (http-**easy**) is a lightweight HTTP framework for Node.js.",
 	"main": "./lib/index.js",
 	"scripts": {
