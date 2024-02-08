@@ -1,6 +1,6 @@
 const assert = require("node:assert");
 const request = require("supertest");
-const httpz = require("../build/index.js");
+const httpz = require("../lib/index.js");
 const server = new httpz.Server({
 	strictUrl: true,
 	matchPathname: true,
