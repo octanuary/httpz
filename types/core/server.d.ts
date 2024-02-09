@@ -1,5 +1,5 @@
 import http from "http";
-import Group, { HttpzOptions } from "./core/group";
+import Group, { HttpzOptions } from "./group";
 import Request from "./request";
 import Response from "./response";
 

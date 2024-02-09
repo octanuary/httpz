@@ -1,5 +1,5 @@
-import Request from "../request";
-import Response from "../response";
+import Request from "./request";
+import Response from "./response";
 
 export type ServerCallback<HasRegexUrl = unknown> = (req: Request<HasRegexUrl>, res: Response, next: () => Promise<void>) => any;
 export type Middleware = {
@@ -42,7 +42,7 @@ export default class Group {
 	options:HttpzOptions;
 	middlewares: (Middleware | ServerCallback)[];
 
-	constructor(options:HttpzOptions);
+	constructor(options?:HttpzOptions);
 
 	/**
 	 * Adds a middleware or merges a group into to the list.
